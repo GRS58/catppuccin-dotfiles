@@ -1,0 +1,224 @@
+
+exec --no-startup-id picom
+
+
+exec --no-startup-id cd .screenlayout && ./layout.sh
+bindsym $mod+d exec discord
+
+set $mod Mod1
+
+font pango:Open Sans 13
+
+exec --no-startup-id dex --autostart --environment i3
+
+# restart
+exec_always restart
+
+exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
+
+exec --no-startup-id dunst
+
+exec --no-startup-id nm-applet
+
+set $refresh_i3status killall -SIGUSR1 i3status
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
+bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
+
+floating_modifier $mod
+
+tiling_drag modifier titlebar 
+
+# kill focused window
+bindsym $mod+c kill
+
+# change focus
+bindsym $mod+j focus left
+bindsym $mod+k focus down
+bindsym $mod+l focus up
+bindsym $mod+semicolon focus right
+
+# alternatively, you can use the cursor keys:
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+# move focused window
+bindsym $mod+Shift+j move left
+bindsym $mod+Shift+k move down
+bindsym $mod+Shift+l move up
+bindsym $mod+Shift+semicolon move right
+
+# alternatively, you can use the cursor keys:
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+# split in horizontal orientation
+bindsym $mod+h split h
+
+# split in vertical orientation
+bindsym $mod+v split v
+
+# enter fullscreen mode for the focused container
+bindsym $mod+f fullscreen toggle
+
+# launch kitty
+bindsym $mod+t exec kitty
+
+bindsym $mod+Shift+space floating toggle
+bindsym $mod+a focus parent
+set $WS1 1 
+set $WS2 2 
+set $WS3 3 
+set $WS4 4 
+set $WS5 5 
+set $WS6 6 
+set $WS7 7 
+set $WS8 8  
+set $WS9 9 
+set $WS10 10
+bindsym $mod+1 workspace number $ws1
+bindsym $mod+2 workspace number $ws2
+bindsym $mod+3 workspace number $ws3
+bindsym $mod+4 workspace number $ws4
+bindsym $mod+5 workspace number $ws5
+bindsym $mod+6 workspace number $ws6
+bindsym $mod+7 workspace number $ws7
+bindsym $mod+8 workspace number $ws8
+bindsym $mod+9 workspace number $ws9
+bindsym $mod+0 workspace number $ws10
+
+bindsym $mod+Shift+1 move container to workspace number $ws1
+bindsym $mod+Shift+2 move container to workspace number $ws2
+bindsym $mod+Shift+3 move container to workspace number $ws3
+bindsym $mod+Shift+4 move container to workspace number $ws4
+bindsym $mod+Shift+5 move container to workspace number $ws5
+bindsym $mod+Shift+6 move container to workspace number $ws6
+bindsym $mod+Shift+7 move container to workspace number $ws7
+bindsym $mod+Shift+8 move container to workspace number $ws8
+bindsym $mod+Shift+9 move container to workspace number $ws9
+bindsym $mod+Shift+0 move container to workspace number $ws10
+
+bindsym $mod+Shift+c reload
+bindsym $mod+Shift+r restart
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
+
+mode "resize" {
+        bindsym j resize shrink width 10 px or 10 ppt
+        bindsym k resize grow height 10 px or 10 ppt
+        bindsym l resize shrink height 10 px or 10 ppt
+        bindsym semicolon resize grow width 10 px or 10 ppt
+
+        bindsym Left resize shrink width 10 px or 10 ppt
+        bindsym Down resize grow height 10 px or 10 ppt
+        bindsym Up resize shrink height 10 px or 10 ppt
+        bindsym Right resize grow width 10 px or 10 ppt
+
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+        bindsym $mod+r mode "default"
+}
+
+bindsym $mod+r mode "resize"
+
+#############################
+### settings for i3-gaps: ###
+#############################
+
+gaps inner 30
+gaps outer 5
+smart_borders on
+set $mode_gaps Gaps: (o) outer, (i) inner
+set $mode_gaps_outer Outer Gaps: +|-|0 (local), Shift + +|-|0 (global)
+set $mode_gaps_inner Inner Gaps: +|-|0 (local), Shift + +|-|0 (global)
+bindsym $mod+Shift+g mode "$mode_gaps"
+
+mode "$mode_gaps" {
+        bindsym o      mode "$mode_gaps_outer"
+        bindsym i      mode "$mode_gaps_inner"
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+mode "$mode_gaps_inner" {
+        bindsym plus  gaps inner current plus 10
+        bindsym minus gaps inner current minus 10
+        bindsym 0     gaps inner current set 0
+
+        bindsym Shift+plus  gaps inner all plus 10
+        bindsym Shift+minus gaps inner all minus 10
+        bindsym Shift+0     gaps inner all set 0
+
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+mode "$mode_gaps_outer" {
+        bindsym plus  gaps outer current plus 10
+        bindsym minus gaps outer current minus 10
+        bindsym 0     gaps outer current set 0
+
+        bindsym Shift+plus  gaps outer all plus 10
+        bindsym Shift+minus gaps outer all minus 10
+        bindsym Shift+0     gaps outer all set 0
+
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+# feh
+exec_always feh --bg-fill /home/aja21/wallpapers/cat_pacman.png
+
+# flameshot
+bindsym $mod+shift+s exec flameshot
+
+# launch rofi
+bindsym $mod+space exec --no-startup-id rofi -show drun -show-icons -font "Hack Nerd Font 8" 
+# thunar
+bindsym $mod+e exec thunar
+
+# screenlayout
+exec_always cd /home/aja21/.screenlayout/ && ./layout.sh
+
+# 75hz 
+exec --no-startup-id cd /home/aja21/ && ./monitor.sh 
+exec_always cd /home/aja21/ && ./monitor.sh
+
+# librewolf
+bindsym $mod+w exec librewolf
+
+# P O L Y B A R 
+exec_always polybar example
+
+##################################
+#           Scratchpads          #
+##################################
+
+# refresh #2
+exec_always xrandr --output HDMI-A-0 --mode 1920x1080 --rate 75 
+
+# move scrathpad
+bindsym $mod+minus move scratchpad
+
+# show scratchpad
+bindsym $mod+plus scratchpad show 
+
+##############################################################
+#                    C  O  L  O  R  S                        #
+##############################################################                    
+# Color Class               Border      BG        FG
+client.focused             #1e1e2e   #000000    #FFFFFF
+client.focused_inactive    #1e1e2e   #000000    #FFFFFF
+client.unfocused           #1e1e2e   #000000    #FFFFFF
+client.urgent              #1e1e2e   #000000    #FFFFFF
+
+for_window [class="Polybar"] floating enable
+for_window [class=kitty] floating enable
+
+# Border settings
+default_border pixel 3
+
+# restart
+exec restart
+
