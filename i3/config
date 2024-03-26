@@ -168,22 +168,16 @@ mode "$mode_gaps_outer" {
         bindsym Escape mode "default"
 }
 # feh
-exec_always feh --bg-fill /home/aja21/wallpapers/cat_pacman.png
+exec_always feh --bg-fill /wallpapers/cat_pacman.png
 
 # flameshot
 bindsym $mod+shift+s exec flameshot
 
 # launch rofi
 bindsym $mod+space exec --no-startup-id rofi -show drun -show-icons -font "Hack Nerd Font 8" 
+
 # thunar
 bindsym $mod+e exec thunar
-
-# screenlayout
-exec_always cd /home/aja21/.screenlayout/ && ./layout.sh
-
-# 75hz 
-exec --no-startup-id cd /home/aja21/ && ./monitor.sh 
-exec_always cd /home/aja21/ && ./monitor.sh
 
 # librewolf
 bindsym $mod+w exec librewolf
@@ -194,9 +188,6 @@ exec_always polybar example
 ##################################
 #           Scratchpads          #
 ##################################
-
-# refresh #2
-exec_always xrandr --output HDMI-A-0 --mode 1920x1080 --rate 75 
 
 # move scrathpad
 bindsym $mod+minus move scratchpad
